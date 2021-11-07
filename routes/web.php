@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\ServicioController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/servicios',[ServicioController::class,'list'])->name("listServicios");
+Route::post('/servicios',[ServicioController::class,'new'])->name("newServicio");
