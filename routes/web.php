@@ -20,3 +20,7 @@ Route::get('/', function () {
 
 Route::get('/servicios',[ServicioController::class,'list'])->name("listServicios");
 Route::post('/servicios',[ServicioController::class,'new'])->name("newServicio");
+
+Route::get('/demo',function(){
+  return view("template.master");
+});
