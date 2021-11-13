@@ -20,7 +20,6 @@ Route::get('/', function () {
 
 Route::get('/servicios',[ServicioController::class,'list'])->name("listServicios");
 Route::post('/servicios',[ServicioController::class,'new'])->name("newServicio");
-
-Route::get('/demo',function(){
-  return view("template.master");
-});
+Route::get("/servicios/{id}/delete",[ServicioController::class,"delete"])->name("deleteServicio");
+Route::get("/servicios/{id}/update",[ServicioController::class,"update"])->name("updateServicio");
+Route::post("/servicios/{id}/update",[ServicioController::class,"store"])->name("storeServicio");

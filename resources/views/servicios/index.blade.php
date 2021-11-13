@@ -1,47 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends("template.master",["title"=>"Servicios"])
+@section("content")
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <title>Servicios</title>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<div class="table-responsive">
+  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+        <th scope="col">Id de servicio</th>
+        <th scope="col">Frecuencia</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Proveedor</th>
+        <th scope="col">Accion</th>
+      </tr>
+    </thead>
+    @foreach ($servicios as $s)
+    @if(isset($idservicio) && $idservicio==$s->id_servicio)
+    <form method="post">
+    <tr>
+      <td> <input class="form-control" name="frecuencia" value="{{ $s->frecuencia }}"> </td>
+      <td> <input class="form-control" name="nombre" value="{{ $s->nombre }}"> </td>
+      <td> <input class="form-control" name="proveedor" value="{{ $s->provedor }}"> </td>
+      <td>
+          <button class="btn btn-success"><i class="fa fa-save"></i></button>
+      </td>
+    </tr>
+    @csrf
+    </form>
+    @else
+    <tr>
+      <td> {{ $s->id_servicio }}</td>
+      <td> {{ $s->frecuencia }} </td>
+      <td> {{ $s->nombre }} </td>
+      <td> {{ $s->provedor }} </td>
+      <td>
+        <a href="{{route("updateServicio",$s->id_servicio)}}">
+          <button class="btn btn-secondary"><i class="fa fa-edit"></i></button>
+        </a>
+        <a href="{{route("deleteServicio",$s->id_servicio)}}">
+          <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+        </a>
+      </td>
+    </tr>
+    @endif
+    @endforeach
+  </table>
+</div>
 
-</head>
-
-<body>
-  <div class="listado" style="display: flex; flex-direction: column; ">
-    <h1 style="display:flex; justify-content: center;"> Listado de Servicios</h1>
-    <table class="table table-striped table-bordered border-dark" style="text-align: center;">
-      <thead>
-        <tr>
-          <th scope="col">Id de servicio</th>
-          <th scope="col">Frecuencia</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Proveedor</th>
-        </tr>
-      </thead>
-      @foreach ($servicios as $s)
-      <tbody>
-        <td> {{ $s->id_servicio }}</td>
-        <td> {{ $s->frecuencia }} </td>
-        <td> {{ $s->nombre }} </td>
-        <td> {{ $s->provedor }} </td>
-      </tbody>
-      @endforeach
-    </table>
-  </div>
-  <h1>Crear Nuevo Servicio</h1>
-
+<div class="card-header py-3">
+  <h6 class="m-0 font-weight-bold text-primary">Agregar Nuevo Servicio</h6>
+</div>
+<div class="card-body">
   <form action="{{ route('newServicio') }}" method="post">
-    Nombre <input type="text" name="nombre" placeholder="Ingrese nombre de servicio"> <br>
-    Provedor <input type="text" name="provedor" placeholder="Ingrese nombre del proveedor"> <br>
-    Frecuencia <input type="numeric" name="frecuencia" placeholder="Ingrese la frecuencia de pago"> <br>
-    <button type="button" class="btn btn-primary" value="crear">Crear</button>
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Ingrese el Nombre del servicio">
+    </div>
+    <div class="form-group">
+      <label for="provedor">Proveedor</label>
+      <input class="form-control" type="text" id="provedor" name="provedor" placeholder="Ingrese el Nombre del proveedor de servicio">
+    </div>
+    <div class="form-group">
+      <label for="frecuencia">Frecuencia</label>
+      <input class="form-control" type="numeric" id="frecuencia" name="frecuencia" placeholder="Ingrese la frecuencia de facturacion">
+    </div>
+    <input type="submit" class="btn btn-primary" value="crear nuevo">
     @csrf
   </form>
-</body>
-
-</html>
+</div>
+@endsection
